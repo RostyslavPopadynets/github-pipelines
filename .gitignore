@@ -1,0 +1,25 @@
+
+# Node
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Vite build
+dist/
+
+# env
+.env
+.env.*.local
+
+# Test coverage
+coverage/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# TypeScript cache
+*.tsbuildinfo
