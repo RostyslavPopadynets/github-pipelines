@@ -1,4 +1,4 @@
-name: CI + SonarCloud
+name: CI - Lint, Test, Build & SonarCloud
 
 on:
   push:
