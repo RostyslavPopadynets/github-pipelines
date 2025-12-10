@@ -1,6 +1,5 @@
 
 name: CI
-
 on:
   push:
     branches: [ main ]
@@ -10,45 +9,21 @@ on:
 jobs:
   quality-and-build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          # Рекомендовано для коректних PR-репортів у SonarCloud
           fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
-
-      - name: Install
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test (with coverage)
-        run: npm run test:coverage
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:coverage
         env:
           CI: true
-
-      - name: Build
-        run: npm run build
-
-      # Офіційний SonarCloud/SonarQube scan action (latest major)
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          # Для on‑prem серверу додали б ще:
-          # SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-
-      # (Опційно) Зберегти білд як артефакт для дебагу
-      - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: dist
+          path: ./dist
