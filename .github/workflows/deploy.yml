@@ -15,55 +15,16 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-
 jobs:
-  probe:
-    # Always run when the workflow is triggered (no job-level "if")
-    runs-on: ubuntu-latest
-    outputs:
-      ok: ${{ steps.check.outputs.ok }}
-      conclusion: ${{ steps.check.outputs.conclusion }}
-      head_branch: ${{ steps.check.outputs.head_branch }}
-      event: ${{ steps.check.outputs.event }}
-    steps:
-      - name: Show raw workflow_run payload
-        run: |
-          echo '--- github.event.workflow_run (JSON) ---'
-          echo '${{ toJSON(github.event.workflow_run) }}'
-          echo '--- end ---'
-
-      - id: check
-        shell: bash
-        run: |
-          conclusion='${{ github.event.workflow_run.conclusion }}'
-          head_branch='${{ github.event.workflow_run.head_branch }}'
-          event='${{ github.event.workflow_run.event }}'
-
-          echo "conclusion=$conclusion" >> "$GITHUB_OUTPUT"
-          echo "head_branch=$head_branch" >> "$GITHUB_OUTPUT"
-          echo "event=$event" >> "$GITHUB_OUTPUT"
-
-          # Decide if we should deploy
-          if [[ "$conclusion" == "success" && "$head_branch" == "main" ]]; then
-            echo "ok=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ok=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Summarize decision
-        run: |
-          echo "Conclusion: ${{ steps.check.outputs.conclusion }}"
-          echo "Head branch: ${{ steps.check.outputs.head_branch }}"
-          echo "Event: ${{ steps.check.outputs.event }}"
-          echo "Should deploy? ${{ steps.check.outputs.ok }}"
-
   deploy:
-    needs: probe
-    if: needs.probe.outputs.ok == 'true'   # gate here
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -71,9 +32,9 @@ jobs:
       - name: Download dist from CI run
         uses: actions/download-artifact@v4
         with:
-          run-id: ${{ github.event.workflow_run.id }}
           name: dist
           path: dist
+          run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Pages artifact
