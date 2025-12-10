@@ -5,6 +5,9 @@ npm-debug.log*
 yarn.lock
 pnpm-lock.yaml
 
+# IDEA
+.idea
+
 # Vite build
 dist/
 

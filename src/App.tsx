@@ -1,7 +1,7 @@
+
 import { useState } from 'react';
 import './App.css';
-
-type Op = '+' | '-' | '*' | '/'
+import { calculate, type Op } from './calculate';
 
 function App() {
   const [a, setA] = useState<string>('0');
@@ -9,25 +9,7 @@ function App() {
   const [op, setOp] = useState<Op>('+');
   const [result, setResult] = useState<string>('');
 
-  const compute = () => {
-    const x = parseFloat(a);
-    const y = parseFloat(b);
-    if (Number.isNaN(x) || Number.isNaN(y)) {
-      setResult('Некоректні числа');
-      return;
-    }
-    let r: number | string;
-    switch (op) {
-      case '+': r = x + y; break;
-      case '-': r = x - y; break;
-      case '*': r = x * y; break;
-      case '/':
-        if (y === 0) r = 'Ділення на 0 неможливе';
-        else r = x / y;
-        break;
-    }
-    setResult(String(r));
-  };
+  const compute = () => setResult(calculate(a, b, op));
 
   return (
     <main style={{ maxWidth: 420, margin: '40px auto', padding: 16 }}>

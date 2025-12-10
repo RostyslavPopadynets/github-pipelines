@@ -1,13 +1,16 @@
 
 name: Deploy to GitHub Pages
+
 on:
   workflow_run:
     workflows: ["CI"]
     types: [completed]
+
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read   # allow downloading artifacts from another workflow run
 
 concurrency:
   group: "pages"
@@ -19,17 +22,20 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
+
     steps:
-      - name: Download dist from CI
+      - name: Download dist from CI run
         uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
+          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
-      - id: deployment
+      - name: Deploy to Pages
+        id: deployment
         uses: actions/deploy-pages@v4
