@@ -1,4 +1,3 @@
-
 export type Op = '+' | '-' | '*' | '/';
 
 export function calculate(aStr: string, bStr: string, op: Op): string {

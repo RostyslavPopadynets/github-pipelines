@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import './App.css';
 import { calculate, type Op } from './calculate';
@@ -13,7 +12,7 @@ function App() {
 
   return (
     <main style={{ maxWidth: 420, margin: '40px auto', padding: 16 }}>
-      <h1>GitHub pipelines — калькулятор</h1>
+      <h1>Калькулятор</h1>
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 12 }}>
         <input
           aria-label="Перше число"
