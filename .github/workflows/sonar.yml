@@ -31,7 +31,13 @@ jobs:
         env:
           CI: true
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@1f77cbcb21539ec3546a697b094646fb65e918b2
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=rostyslav-vitech
+            -Dsonar.projectKey=github-pipelines
