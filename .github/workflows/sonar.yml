@@ -48,7 +48,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=rostyslav-vitech-pipeline
-            -Dsonar.projectKey=github-pipelines
+            -Dsonar.projectKey=rostyslav-vitech_github-pipelines
             -Dsonar.sources=src
             -Dsonar.tests=tests
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
