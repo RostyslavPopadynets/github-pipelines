@@ -9,5 +9,17 @@ export default defineConfig({
     setupFiles: './setupTests.ts',
     css: true,
     include: ['tests/**/*.test.{ts,tsx}'],
+    coverage: {
+      provider: 'v8',
+      reportsDirectory: 'coverage',
+      reporter: ['text', 'lcov'],
+      exclude: ['dist', 'node_modules'],
+      thresholds: {
+        lines: 80,
+        branches: 80,
+        functions: 80,
+        statements: 80,
+      },
+    },
   },
 });

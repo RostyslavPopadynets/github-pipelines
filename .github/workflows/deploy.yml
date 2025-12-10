@@ -30,8 +30,13 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build
         run: npm run build
+      - name: Test (with coverage)
+        run: npm run test:coverage
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
