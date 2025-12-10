@@ -47,7 +47,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}      # your SonarCloud token
         with:
           args: >
-            -Dsonar.organization=rostyslav-vitech
+            -Dsonar.organization=rostyslav-vitech-pipeline
             -Dsonar.projectKey=github-pipelines
             -Dsonar.sources=src
             -Dsonar.tests=tests
