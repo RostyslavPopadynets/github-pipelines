@@ -2,8 +2,8 @@
 export type Op = '+' | '-' | '*' | '/';
 
 export function calculate(aStr: string, bStr: string, op: Op): string {
-  const x = parseFloat(aStr);
-  const y = parseFloat(bStr);
+  const x = Number.parseFloat(aStr);
+  const y = Number.parseFloat(bStr);
   if (Number.isNaN(x) || Number.isNaN(y)) {
     return 'Некоректні числа';
   }

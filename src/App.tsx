@@ -39,7 +39,8 @@ function App() {
       </div>
 
       <div style={{ marginTop: 16 }}>
-        <strong>Результат:</strong> <span role="status">{result}</span>
+        <strong>Результат:</strong>
+        <output name="result">{result}</output>
       </div>
     </main>
   );
