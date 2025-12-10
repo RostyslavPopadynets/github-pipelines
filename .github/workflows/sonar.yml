@@ -32,6 +32,6 @@ jobs:
           CI: true
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+        uses: SonarSource/sonarqube-scan-action@1f77cbcb21539ec3546a697b094646fb65e918b2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
