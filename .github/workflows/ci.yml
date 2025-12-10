@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
@@ -38,9 +38,9 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Офіційний SonarCloud/SonarQube scan action
+      # Офіційний SonarCloud/SonarQube scan action (latest major)
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v4.1.0
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           # Для on‑prem серверу додали б ще:
