@@ -10,7 +10,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  actions: read  # allow reading artifacts from other runs
+  actions: read   # allow reading artifacts from other runs
 
 concurrency:
   group: "pages"
@@ -22,6 +22,9 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Download dist from CI run
@@ -30,15 +33,7 @@ jobs:
           name: dist
           path: dist
           run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}  # required for cross-run download
-
-      # (Optional) If you want to diagnose, you can temporarily use:
-      # - uses: actions/download-artifact@v4
-      #   with:
-      #     run-id: ${{ github.event.workflow_run.id }}
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     path: all
-      #   # Download all artifacts from the CI run to 'all' and inspect names/contents.
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

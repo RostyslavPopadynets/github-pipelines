@@ -1,0 +1,45 @@
+
+name: SonarQube
+
+on:
+  push:
+    branches: [ main ]   # узгоджено з CI
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Test (with coverage)
+        run: npm run test:coverage
+        env:
+          CI: true
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}   # якщо on‑prem SonarQube Server
+        with:
+          args: >
+            -Dsonar.projectKey=your_project_key
+            -Dsonar.organization=your_org
+            -Dsonar.sources=src
+            -Dsonar.tests=test
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
