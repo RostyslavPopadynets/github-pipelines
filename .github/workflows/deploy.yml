@@ -24,9 +24,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Build
-        run: npm run build
-
       - name: Download dist from CI run
         uses: actions/download-artifact@v4
         with:
